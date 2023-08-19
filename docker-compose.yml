@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  labb1con.server:
+    image: ${DOCKER_REGISTRY-}labb1conserver
+    build:
+      context: .
+      dockerfile: Labb1Con/Server/Dockerfile
+    environment:
+      - ConnectionStrings__PhConnectionString=Server=postgres;Port=5432;Database=labb1Con;User Id=postgres;Password=postgres;
+    ports:
+      - 80:80
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+     - POSTGRES_DB=labb1Con
+    ports:
+     - 5432:5432
+    restart: always
+    volumes:
+     - pgsql_data:/var/lib/postgressql/data
+    
+volumes:
+  pgsql_data:
